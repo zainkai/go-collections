@@ -1,6 +1,9 @@
-package stack
+package stackArray
 
-/*
+import (
+	"testing"
+)
+
 func Test(t *testing.T) {
 	s := New()
 
@@ -37,4 +40,3 @@ func Test(t *testing.T) {
 		t.Errorf("Top of the stack should be 2")
 	}
 }
-*/

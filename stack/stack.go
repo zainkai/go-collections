@@ -1,29 +1,35 @@
 package stack
 
+// Stack generic stack implementation using a array
 type Stack struct {
 }
 
-// Create a new stack
+// New Create a new Stack
+// O(1)
 func New() *Stack {
 	return &Stack{}
 }
 
-// Return the number of items in the stack
-func (this *Stack) Len() int {
+// Len Return the number of items in the Stack
+// O(1)
+func (s *Stack) Len() int {
 	return 0
 }
 
-// View the top item on the stack
-func (this *Stack) Peek() interface{} {
+// Peek View the top item on the Stack
+// O(1)
+func (s *Stack) Peek() interface{} {
 	return nil
 }
 
-// Pop the top item of the stack and return it
-func (this *Stack) Pop() interface{} {
+// Pop the top item of the Stack and return it
+// O(1)
+func (s *Stack) Pop() interface{} {
 	return nil
 }
 
-// Push a value onto the top of the stack
-func (this *Stack) Push(value interface{}) {
+// Push a value onto the top of the Stack
+// O(1)
+func (s *Stack) Push(value interface{}) {
 
 }
