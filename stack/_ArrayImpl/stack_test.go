@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test(t *testing.T) {
+func TestStackArray(t *testing.T) {
 	s := New()
 
 	if s.Len() != 0 {

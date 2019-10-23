@@ -1,7 +1,8 @@
 package stack
 
-/*
-func Test(t *testing.T) {
+import "testing"
+
+func TestStack(t *testing.T) {
 	s := New()
 
 	if s.Len() != 0 {
@@ -37,4 +38,3 @@ func Test(t *testing.T) {
 		t.Errorf("Top of the stack should be 2")
 	}
 }
-*/
