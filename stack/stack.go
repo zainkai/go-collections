@@ -5,7 +5,7 @@ type node struct {
 	Next  *node
 }
 
-// Stack generic stack implementation using a array
+// Stack generic stack implementation using a Linked List
 type Stack struct {
 	Length int
 	Last   *node
