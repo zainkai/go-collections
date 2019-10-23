@@ -1,46 +1,48 @@
 package queue
 
-// func TestQueue(t *testing.T) {
-// 	q := New()
+import "testing"
 
-// 	if q.Len() != 0 {
-// 		t.Errorf("Length should be 0")
-// 	}
+func TestQueue(t *testing.T) {
+	q := New()
 
-// 	q.Enqueue(1)
+	if q.Len() != 0 {
+		t.Errorf("Length should be 0")
+	}
 
-// 	if q.Len() != 1 {
-// 		t.Errorf("Length should be 1")
-// 	}
+	q.Enqueue(1)
 
-// 	if q.Peek().(int) != 1 {
-// 		t.Errorf("Enqueued value should be 1")
-// 	}
+	if q.Len() != 1 {
+		t.Errorf("Length should be 1")
+	}
 
-// 	v := q.Dequeue()
+	if q.Peek().(int) != 1 {
+		t.Errorf("Enqueued value should be 1")
+	}
 
-// 	if v.(int) != 1 {
-// 		t.Errorf("Dequeued value should be 1")
-// 	}
+	v := q.Dequeue()
 
-// 	if q.Peek() != nil || q.Dequeue() != nil {
-// 		t.Errorf("Empty queue should have no values")
-// 	}
+	if v.(int) != 1 {
+		t.Errorf("Dequeued value should be 1")
+	}
 
-// 	q.Enqueue(1)
-// 	q.Enqueue(2)
+	if q.Peek() != nil || q.Dequeue() != nil {
+		t.Errorf("Empty queue should have no values")
+	}
 
-// 	if q.Len() != 2 {
-// 		t.Errorf("Length should be 2")
-// 	}
+	q.Enqueue(1)
+	q.Enqueue(2)
 
-// 	if q.Peek().(int) != 1 {
-// 		t.Errorf("First value should be 1")
-// 	}
+	if q.Len() != 2 {
+		t.Errorf("Length should be 2")
+	}
 
-// 	q.Dequeue()
+	if q.Peek().(int) != 1 {
+		t.Errorf("First value should be 1")
+	}
 
-// 	if q.Peek().(int) != 2 {
-// 		t.Errorf("Next value should be 2")
-// 	}
-// }
+	q.Dequeue()
+
+	if q.Peek().(int) != 2 {
+		t.Errorf("Next value should be 2")
+	}
+}
