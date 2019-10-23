@@ -1,4 +1,4 @@
-package stackArray
+package stackarray
 
 import (
 	"testing"

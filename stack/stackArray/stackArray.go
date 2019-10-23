@@ -1,4 +1,4 @@
-package stackArray
+package stackarray
 
 // StackArray generic stack implementation using a array
 type StackArray struct {
