@@ -63,7 +63,7 @@ func TestSearchBst(t *testing.T) {
 	}
 
 	for _, key := range nodes {
-		if n, err := bst.SearchNode(key); err != nil || n != nil {
+		if n, err := bst.SearchNode(key); err != nil || n.Key.(int) != key {
 			t.Errorf("could not search for key: %d in binary search tree", key)
 		}
 	}
