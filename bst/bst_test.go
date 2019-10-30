@@ -68,3 +68,27 @@ func TestSearchBst(t *testing.T) {
 		}
 	}
 }
+
+func TestFindMin(t *testing.T) {
+	bst := New(isLessInt, isEqualInt)
+	nodes := []int{2, 1, 3, 4}
+	for _, key := range nodes { // populate tree
+		bst.Insert(key, nil)
+	}
+
+	if key, _ := bst.FindMin(); key.(int) != 1 {
+		t.Errorf("couldnt not find min key: %d", key)
+	}
+}
+
+func TestFindMax(t *testing.T) {
+	bst := New(isLessInt, isEqualInt)
+	nodes := []int{2, 1, 3, 4}
+	for _, key := range nodes { // populate tree
+		bst.Insert(key, nil)
+	}
+
+	if key, _ := bst.FindMax(); key.(int) != 4 {
+		t.Errorf("couldnt not find max key: %d", key)
+	}
+}

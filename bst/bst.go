@@ -74,6 +74,15 @@ func (root *NodeBST) SubTreeMin() *NodeBST {
 	return temp
 }
 
+func (tree *BST) FindMin() (key interface{}, data interface{}) {
+	min := tree.Head.SubTreeMin()
+	if min == nil {
+		return nil, nil
+	}
+
+	return min.Key, min.Data
+}
+
 func (root *NodeBST) SubTreeMax() *NodeBST {
 	temp := root
 
@@ -84,6 +93,15 @@ func (root *NodeBST) SubTreeMax() *NodeBST {
 		temp = temp.Right
 	}
 	return temp
+}
+
+func (tree *BST) FindMax() (key interface{}, data interface{}) {
+	max := tree.Head.SubTreeMax()
+	if max == nil {
+		return nil, nil
+	}
+
+	return max.Key, max.Data
 }
 
 // func (tree *BST) Delete(key interface{}) (*NodeBST, error) {
