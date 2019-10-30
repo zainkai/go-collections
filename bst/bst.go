@@ -37,7 +37,7 @@ func (tree *BST) Insert(key, data interface{}) error {
 	}
 }
 
-func (tree *BST) Search(key interface{}) (*NodeBST, error) {
+func (tree *BST) SearchNode(key interface{}) (*NodeBST, error) {
 	temp := tree.Head
 	for temp != nil {
 		if tree.isKeyEqual(key, temp.Key) {
@@ -54,27 +54,37 @@ func (tree *BST) Search(key interface{}) (*NodeBST, error) {
 	return nil, ErrNotFoundNode
 }
 
-// func Min(temp *NodeBST) *NodeBST {
-// 	for temp != nil {
-// 		if temp.Left != nil {
-// 			temp = temp.Left
-// 		} else {
-// 			break
-// 		}
-// 	}
-// 	return temp
-// }
+func (tree *BST) Search(key interface{}) (interface{}, error) {
+	node, err := tree.SearchNode(key)
+	if err != nil {
+		return nil, err
+	}
+	return node.Data, nil
+}
 
-// func Max(temp *NodeBST) *NodeBST {
-// 	for temp != nil {
-// 		if temp.Right != nil {
-// 			temp = temp.Right
-// 		} else {
-// 			break
-// 		}
-// 	}
-// 	return temp
-// }
+func (root *NodeBST) SubTreeMin() *NodeBST {
+	temp := root
+
+	for temp != nil {
+		if temp.Left == nil {
+			break
+		}
+		temp = temp.Left
+	}
+	return temp
+}
+
+func (root *NodeBST) SubTreeMax() *NodeBST {
+	temp := root
+
+	for temp != nil {
+		if temp.Right == nil {
+			break
+		}
+		temp = temp.Right
+	}
+	return temp
+}
 
 // func (tree *BST) Delete(key interface{}) (*NodeBST, error) {
 // 	temp, err := tree.Search(key)

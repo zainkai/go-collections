@@ -54,3 +54,17 @@ func TestInsertBst(t *testing.T) {
 		t.Errorf("head.Left node did not have key 4")
 	}
 }
+
+func TestSearchBst(t *testing.T) {
+	bst := New(isLessInt, isEqualInt)
+	nodes := []int{2, 1, 3, 4}
+	for _, key := range nodes { // populate tree
+		bst.Insert(key, nil)
+	}
+
+	for _, key := range nodes {
+		if n, err := bst.SearchNode(key); err != nil || n != nil {
+			t.Errorf("could not search for key: %d in binary search tree", key)
+		}
+	}
+}
