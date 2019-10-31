@@ -42,10 +42,7 @@ func (tree *BST) SearchNode(key interface{}) (*NodeBST, error) {
 	for temp != nil {
 		if tree.isKeyEqual(key, temp.Key) {
 			return temp, nil
-		}
-
-		lettThanTemp := tree.LessThan(key, temp.Key)
-		if lettThanTemp {
+		} else if lessThanTemp := tree.LessThan(key, temp.Key); lessThanTemp {
 			temp = temp.Left
 		} else {
 			temp = temp.Right
@@ -104,27 +101,51 @@ func (tree *BST) FindMax() (key interface{}, data interface{}) {
 	return max.Key, max.Data
 }
 
-// func (tree *BST) Delete(key interface{}) (*NodeBST, error) {
-// 	temp, err := tree.Search(key)
-// 	if err != nil || temp == nil {
-// 		return nil, err
-// 	}
+func (tree *BST) Delete(key interface{}) error {
+	if tree.Head == nil {
+		return ErrNotFoundNode
+	}
 
-// 	if temp.Left == nil && temp.Right == nil {
-// 		temp = nil
-// 	} else if temp.Left == nil {
-// 		temp = temp.Right
-// 	} else if temp.Right == nil {
-// 		temp = temp.Left
-// 	} else {
-// 		replacement := Min(temp.Right)
-// 		temp.Key, temp.Data = replacement.Key, replacement.Data
+	return tree.Head.DeleteNode(tree, key)
+}
 
-// 		temp.Right, err = tree.Delete(temp.Right.Key)
-// 		if err != nil {
-// 			return temp, err
-// 		}
-// 	}
+func (n *NodeBST) replaceNode(parent, replacement *NodeBST) {
+	if parent.Left == n {
+		parent.Left = replacement
+	} else {
+		parent.Right = replacement
+	}
+}
 
-// 	return temp, nil
-// }
+func (n *NodeBST) DeleteNode(tree *BST, key interface{}) error {
+	var temp, parent *NodeBST = n, nil
+
+	for temp != nil {
+		if tree.isKeyEqual(temp.Key, key) { // has both children
+			if temp.Left != nil && temp.Right != nil {
+				replacement := temp.Right.SubTreeMin() // replacement will be min most of right subtree
+
+				temp.Key, temp.Data = replacement.Key, replacement.Data // transfer data from replacement node
+
+				key = replacement.Key // delete replacement
+			} else if temp.Left == nil && temp.Right == nil { // has no children
+				temp.replaceNode(parent, nil)
+				return nil
+			} else if temp.Left != nil { // only has left child
+				temp.replaceNode(parent, temp.Left)
+				return nil
+			} else { // only has right child
+				temp.replaceNode(parent, temp.Right)
+				return nil
+			}
+		} else if lessThanTemp := tree.LessThan(key, temp.Key); lessThanTemp { // search for target node
+			parent = temp
+			temp = temp.Left
+		} else {
+			parent = temp
+			temp = temp.Right
+		}
+	}
+
+	return ErrNotFoundNode
+}
