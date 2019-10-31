@@ -59,20 +59,20 @@ func (tree *BST) Search(key interface{}) (interface{}, error) {
 	return node.Data, nil
 }
 
-func (root *NodeBST) SubTreeMin() *NodeBST {
-	temp := root
+func (root *NodeBST) SubTreeMin() (*NodeBST, *NodeBST) {
+	var temp, parent *NodeBST = root, nil
 
 	for temp != nil {
 		if temp.Left == nil {
 			break
 		}
-		temp = temp.Left
+		parent, temp = temp, temp.Left
 	}
-	return temp
+	return temp, parent
 }
 
 func (tree *BST) FindMin() (key interface{}, data interface{}) {
-	min := tree.Head.SubTreeMin()
+	min, _ := tree.Head.SubTreeMin()
 	if min == nil {
 		return nil, nil
 	}
@@ -80,20 +80,20 @@ func (tree *BST) FindMin() (key interface{}, data interface{}) {
 	return min.Key, min.Data
 }
 
-func (root *NodeBST) SubTreeMax() *NodeBST {
-	temp := root
+func (root *NodeBST) SubTreeMax() (*NodeBST, *NodeBST) {
+	var temp, parent *NodeBST = root, nil
 
 	for temp != nil {
 		if temp.Right == nil {
 			break
 		}
-		temp = temp.Right
+		parent, temp = temp, temp.Right
 	}
-	return temp
+	return temp, parent
 }
 
 func (tree *BST) FindMax() (key interface{}, data interface{}) {
-	max := tree.Head.SubTreeMax()
+	max, _ := tree.Head.SubTreeMax()
 	if max == nil {
 		return nil, nil
 	}
@@ -123,10 +123,11 @@ func (n *NodeBST) DeleteNode(tree *BST, key interface{}) error {
 	for temp != nil {
 		if tree.isKeyEqual(temp.Key, key) { // has both children
 			if temp.Left != nil && temp.Right != nil {
-				replacement := temp.Right.SubTreeMin() // replacement will be min most of right subtree
+				replacement, replacementParent := temp.Right.SubTreeMin() // replacement will be min most of right subtree
 
 				temp.Key, temp.Data = replacement.Key, replacement.Data // transfer data from replacement node
 
+				temp, parent = replacement, replacementParent
 				key = replacement.Key // delete replacement
 			} else if temp.Left == nil && temp.Right == nil { // has no children
 				temp.replaceNode(parent, nil)
