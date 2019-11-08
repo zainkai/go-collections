@@ -92,3 +92,18 @@ func TestFindMax(t *testing.T) {
 		t.Errorf("couldnt not find max key: %d", key)
 	}
 }
+
+func Test_1_Delete(t *testing.T) {
+	bst := New(isLessInt, isEqualInt)
+	nodes := []int{5, 3, 7, 2, 4, 6, 8, 1}
+	for _, key := range nodes { // populate tree
+		bst.Insert(key, nil)
+	}
+
+	if err := bst.Delete(5); err != nil {
+		t.Errorf("couldnt delete key: %d", 5)
+	}
+	if bst.Head.Key.(int) != 6 {
+		t.Errorf("head key was not replaced correctly")
+	}
+}
