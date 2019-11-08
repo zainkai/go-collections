@@ -1,6 +1,7 @@
 package bst
 
 import (
+	"errors"
 	"testing"
 )
 
@@ -93,7 +94,7 @@ func TestFindMax(t *testing.T) {
 	}
 }
 
-func Test_1_Delete(t *testing.T) {
+func TestDeleteHead(t *testing.T) {
 	bst := New(isLessInt, isEqualInt)
 	nodes := []int{5, 3, 7, 2, 4, 6, 8, 1}
 	for _, key := range nodes { // populate tree
@@ -105,5 +106,34 @@ func Test_1_Delete(t *testing.T) {
 	}
 	if bst.Head.Key.(int) != 6 {
 		t.Errorf("head key was not replaced correctly")
+	}
+}
+
+// delete single node from bst tests
+func TestDeleteNode(t *testing.T) {
+	initialBst := []int{5, 3, 7, 2, 4, 6, 8, 1}
+	tests := []int{5, 3, 7, 2, 4, 6, 8, 1}
+
+	for _, target := range tests {
+		bst := New(isLessInt, isEqualInt)
+		for _, key := range initialBst { // populate tree
+			bst.Insert(key, nil)
+		}
+
+		if err := bst.Delete(target); err != nil { // delete target from bst
+			t.Errorf("couldnt delete key: %d", target)
+		}
+		if _, err := bst.Search(target); !errors.Is(err, ErrNotFoundNode) { // check if target node is not in bst
+			t.Errorf("%d was not deleted from bst", target)
+		}
+
+		for _, key := range initialBst { // check if other keys still exist in bst
+			if key == target {
+				continue
+			}
+			if _, err := bst.Search(key); errors.Is(err, ErrNotFoundNode) {
+				t.Errorf("%d was not found in bst", key)
+			}
+		}
 	}
 }

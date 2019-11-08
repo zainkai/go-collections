@@ -123,7 +123,10 @@ func (n *NodeBST) DeleteNode(tree *BST, key interface{}) error {
 	for temp != nil {
 		if tree.isKeyEqual(temp.Key, key) { // has both children
 			if temp.Left != nil && temp.Right != nil {
-				replacement, replacementParent := temp.Right.SubTreeMin() // replacement will be min most of right subtree
+				replacement, replacementParent := temp.Right, temp // replacement will be min most of right subtree
+				if repl, parentRepl := temp.Right.SubTreeMin(); parentRepl != nil {
+					replacement, replacementParent = repl, parentRepl
+				}
 
 				temp.Key, temp.Data = replacement.Key, replacement.Data // transfer data from replacement node
 
