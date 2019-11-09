@@ -137,3 +137,50 @@ func TestDeleteNode(t *testing.T) {
 		}
 	}
 }
+
+func TestInOrderTraversalRecursive(t *testing.T) {
+	initialBst := []int{5, 3, 7, 2, 4, 6, 8, 1}
+	bst := New(isLessInt, isEqualInt)
+	for _, key := range initialBst { // populate tree
+		bst.Insert(key, nil)
+	}
+
+	traversalResult := []int{}
+	visitNode := func(k, d interface{}) {
+		traversalResult = append(traversalResult, k.(int))
+	}
+
+	bst.InOrderRec(visitNode)
+
+	expectedResult := []int{1, 2, 3, 4, 5, 6, 7, 8}
+	for i, expected := range expectedResult {
+		if traversalResult[i] != expected {
+			t.Errorf("expected traversalResult at index: %d to equal: %d instead got %d", i, expected, traversalResult[i])
+		}
+	}
+}
+
+// func TestInOrderTraversalIterative(t *testing.T) {
+// 	initialBst := []int{5, 3, 7, 2, 4, 6, 8, 1}
+// 	bst := New(isLessInt, isEqualInt)
+// 	for _, key := range initialBst { // populate tree
+// 		bst.Insert(key, nil)
+// 	}
+
+// 	traversalResult := []int{}
+// 	visitNode := func(k, d interface{}) {
+// 		if k == nil {
+// 			return
+// 		}
+// 		traversalResult = append(traversalResult, k.(int))
+// 	}
+
+// 	bst.InOrder(visitNode)
+
+// 	expectedResult := []int{1, 2, 3, 4, 5, 6, 7, 8}
+// 	for i, expected := range expectedResult {
+// 		if traversalResult[i] != expected {
+// 			t.Errorf("expected traversalResult at index: %d to equal: %d instead got %d", i, expected, traversalResult[i])
+// 		}
+// 	}
+// }
