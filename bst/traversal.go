@@ -1,9 +1,12 @@
 package bst
 
 import (
+	"github.com/zainkai/go-collections/queue"
 	"github.com/zainkai/go-collections/stack"
 )
 
+// InOrderRec iterate over BST recursively
+// O(N) time, O(N) space
 func (tree *BST) InOrderRec(f func(key, data interface{})) {
 	tree.Head.inOrderRec(f)
 }
@@ -18,7 +21,13 @@ func (n *NodeBST) inOrderRec(f func(key, data interface{})) {
 	n.Right.inOrderRec(f)
 }
 
+// InOrder iterate over BST iteratively
+// O(N) time, O(N) space
 func (tree *BST) InOrder(f func(key, data interface{})) {
+	if tree.Head == nil {
+		return
+	}
+
 	stk := stack.New()
 	temp := tree.Head
 
@@ -35,6 +44,8 @@ func (tree *BST) InOrder(f func(key, data interface{})) {
 	}
 }
 
+// PreOrderRec iterate over BST recursively
+// O(N) time, O(N) space
 func (tree *BST) PreOrderRec(f func(key, data interface{})) {
 	tree.Head.preOrderRec(f)
 }
@@ -49,7 +60,13 @@ func (n *NodeBST) preOrderRec(f func(key, data interface{})) {
 	n.Right.preOrderRec(f)
 }
 
+// PreOrder iterate over BST iteratively
+// O(N) time, O(N) space
 func (tree *BST) PreOrder(f func(key, data interface{})) {
+	if tree.Head == nil {
+		return
+	}
+
 	stk := stack.New()
 	stk.Push(tree.Head)
 
@@ -66,6 +83,8 @@ func (tree *BST) PreOrder(f func(key, data interface{})) {
 	}
 }
 
+// PreOrderRec iterate over BST iteratively
+// O(N) time, O(N) space
 func (tree *BST) PostOrderRec(f func(key, data interface{})) {
 	tree.Head.postOrderRec(f)
 }
@@ -80,8 +99,13 @@ func (n *NodeBST) postOrderRec(f func(key, data interface{})) {
 	f(n.Key, n.Data)
 }
 
-// PostOrder 2 stack solution
+// PostOrder iterate over BST iteratively
+// O(N) time, O(2N) space
 func (tree *BST) PostOrder(f func(key, data interface{})) {
+	if tree.Head == nil {
+		return
+	}
+
 	stk := stack.New()
 	stk.Push(tree.Head)
 	outputStk := stack.New()
@@ -101,5 +125,28 @@ func (tree *BST) PostOrder(f func(key, data interface{})) {
 	for outputStk.Len() > 0 {
 		temp := outputStk.Pop().(*NodeBST)
 		f(temp.Key, temp.Data)
+	}
+}
+
+// LevelOrder iterate over BST iteratively
+// O(N) time, O(N) space
+func (tree *BST) LevelOrder(f func(key, data interface{})) {
+	if tree.Head == nil {
+		return
+	}
+
+	queue := queue.New()
+	queue.Enqueue(tree.Head)
+
+	for queue.Len() > 0 {
+		temp := queue.Dequeue().(*NodeBST)
+		f(temp.Key, temp.Data)
+
+		if temp.Left != nil {
+			queue.Enqueue(temp.Left)
+		}
+		if temp.Right != nil {
+			queue.Enqueue(temp.Right)
+		}
 	}
 }
