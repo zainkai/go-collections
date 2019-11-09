@@ -4,10 +4,7 @@ import "testing"
 
 func TestInOrderTraversalRecursive(t *testing.T) {
 	initialBst := []int{5, 3, 7, 2, 4, 6, 8, 1}
-	bst := New(isLessInt, isEqualInt)
-	for _, key := range initialBst { // populate tree
-		bst.Insert(key, nil)
-	}
+	bst := initBst(initialBst)
 
 	traversalResult := []int{}
 	visitNode := func(k, d interface{}) {
@@ -26,10 +23,7 @@ func TestInOrderTraversalRecursive(t *testing.T) {
 
 func TestInOrderTraversalIterative(t *testing.T) {
 	initialBst := []int{5, 3, 7, 2, 4, 6, 8, 1}
-	bst := New(isLessInt, isEqualInt)
-	for _, key := range initialBst { // populate tree
-		bst.Insert(key, nil)
-	}
+	bst := initBst(initialBst)
 
 	traversalResult := []int{}
 	visitNode := func(k, d interface{}) {
@@ -51,10 +45,7 @@ func TestInOrderTraversalIterative(t *testing.T) {
 
 func TestPreOrderTraversalRecursive(t *testing.T) {
 	initialBst := []int{5, 3, 7, 2, 4, 6, 8, 1}
-	bst := New(isLessInt, isEqualInt)
-	for _, key := range initialBst { // populate tree
-		bst.Insert(key, nil)
-	}
+	bst := initBst(initialBst)
 
 	traversalResult := []int{}
 	visitNode := func(k, d interface{}) {
@@ -73,10 +64,7 @@ func TestPreOrderTraversalRecursive(t *testing.T) {
 
 func TestPreOrderTraversalIterative(t *testing.T) {
 	initialBst := []int{5, 3, 7, 2, 4, 6, 8, 1}
-	bst := New(isLessInt, isEqualInt)
-	for _, key := range initialBst { // populate tree
-		bst.Insert(key, nil)
-	}
+	bst := initBst(initialBst)
 
 	traversalResult := []int{}
 	visitNode := func(k, d interface{}) {
@@ -95,10 +83,7 @@ func TestPreOrderTraversalIterative(t *testing.T) {
 
 func TestPostOrderTraversalRecursive(t *testing.T) {
 	initialBst := []int{5, 3, 7, 2, 4, 6, 8, 1}
-	bst := New(isLessInt, isEqualInt)
-	for _, key := range initialBst { // populate tree
-		bst.Insert(key, nil)
-	}
+	bst := initBst(initialBst)
 
 	traversalResult := []int{}
 	visitNode := func(k, d interface{}) {
@@ -117,10 +102,7 @@ func TestPostOrderTraversalRecursive(t *testing.T) {
 
 func TestPostOrderTraversalIterative(t *testing.T) {
 	initialBst := []int{5, 3, 7, 2, 4, 6, 8, 1}
-	bst := New(isLessInt, isEqualInt)
-	for _, key := range initialBst { // populate tree
-		bst.Insert(key, nil)
-	}
+	bst := initBst(initialBst)
 
 	traversalResult := []int{}
 	visitNode := func(k, d interface{}) {
@@ -139,10 +121,7 @@ func TestPostOrderTraversalIterative(t *testing.T) {
 
 func TestLevelOrderTraversal(t *testing.T) {
 	initialBst := []int{5, 3, 7, 2, 4, 6, 8, 1}
-	bst := New(isLessInt, isEqualInt)
-	for _, key := range initialBst { // populate tree
-		bst.Insert(key, nil)
-	}
+	bst := initBst(initialBst)
 
 	traversalResult := []int{}
 	visitNode := func(k, d interface{}) {

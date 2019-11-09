@@ -19,6 +19,14 @@ var isLessInt CompareKeys = func(a, b interface{}) bool {
 	return a.(int) < b.(int)
 }
 
+func initBst(nodes []int) *BST {
+	bst := New(isLessInt, isEqualInt)
+	for _, key := range nodes { // populate tree
+		bst.Insert(key, nil)
+	}
+	return bst
+}
+
 func TestInsertBst(t *testing.T) {
 	bst := New(isLessInt, isEqualInt)
 	// bst.Insert(4, nil)
@@ -57,11 +65,8 @@ func TestInsertBst(t *testing.T) {
 }
 
 func TestSearchBst(t *testing.T) {
-	bst := New(isLessInt, isEqualInt)
 	nodes := []int{2, 1, 3, 4}
-	for _, key := range nodes { // populate tree
-		bst.Insert(key, nil)
-	}
+	bst := initBst(nodes)
 
 	for _, key := range nodes {
 		if n, err := bst.SearchNode(key); err != nil || n.Key.(int) != key {
@@ -71,11 +76,8 @@ func TestSearchBst(t *testing.T) {
 }
 
 func TestFindMin(t *testing.T) {
-	bst := New(isLessInt, isEqualInt)
 	nodes := []int{2, 1, 3, 4}
-	for _, key := range nodes { // populate tree
-		bst.Insert(key, nil)
-	}
+	bst := initBst(nodes)
 
 	if key, _ := bst.FindMin(); key.(int) != 1 {
 		t.Errorf("couldnt not find min key: %d", key)
@@ -83,11 +85,8 @@ func TestFindMin(t *testing.T) {
 }
 
 func TestFindMax(t *testing.T) {
-	bst := New(isLessInt, isEqualInt)
 	nodes := []int{2, 1, 3, 4}
-	for _, key := range nodes { // populate tree
-		bst.Insert(key, nil)
-	}
+	bst := initBst(nodes)
 
 	if key, _ := bst.FindMax(); key.(int) != 4 {
 		t.Errorf("couldnt not find max key: %d", key)
@@ -95,11 +94,8 @@ func TestFindMax(t *testing.T) {
 }
 
 func TestDeleteHead(t *testing.T) {
-	bst := New(isLessInt, isEqualInt)
 	nodes := []int{5, 3, 7, 2, 4, 6, 8, 1}
-	for _, key := range nodes { // populate tree
-		bst.Insert(key, nil)
-	}
+	bst := initBst(nodes)
 
 	if err := bst.Delete(5); err != nil {
 		t.Errorf("couldnt delete key: %d", 5)
@@ -115,10 +111,7 @@ func TestDeleteNode(t *testing.T) {
 	tests := []int{5, 3, 7, 2, 4, 6, 8, 1}
 
 	for _, target := range tests {
-		bst := New(isLessInt, isEqualInt)
-		for _, key := range initialBst { // populate tree
-			bst.Insert(key, nil)
-		}
+		bst := initBst(initialBst)
 
 		if err := bst.Delete(target); err != nil { // delete target from bst
 			t.Errorf("couldnt delete key: %d", target)
@@ -127,12 +120,18 @@ func TestDeleteNode(t *testing.T) {
 			t.Errorf("%d was not deleted from bst", target)
 		}
 
-		for _, key := range initialBst { // check if other keys still exist in bst
-			if key == target {
-				continue
-			}
-			if _, err := bst.Search(key); errors.Is(err, ErrNotFoundNode) {
-				t.Errorf("%d was not found in bst", key)
+		traversalResult := []int{}
+		visitNode := func(k, d interface{}) {
+			traversalResult = append(traversalResult, k.(int))
+		}
+		bst.LevelOrder(visitNode)
+		if len(traversalResult) != len(initialBst)-1 {
+			t.Errorf("node was not delted from initial bst")
+		}
+
+		for _, node := range traversalResult {
+			if node == target {
+				t.Errorf("target node %d was not deleted", target)
 			}
 		}
 	}
