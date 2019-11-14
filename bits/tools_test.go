@@ -2,7 +2,7 @@ package bits
 
 import "testing"
 
-func TestBitPrinter(t *testing.T) {
+func TestBitString(t *testing.T) {
 	tests := []struct {
 		input    int
 		expected string
