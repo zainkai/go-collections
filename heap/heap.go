@@ -31,14 +31,13 @@ func (h *Heap) ExtractTop() (int, interface{}, error) {
 	h.swapNodes(0, len(h.Data)-1)   // bring last node to front of heap
 	h.Data = h.Data[:len(h.Data)-1] // create a new slice on existing array O(1) time
 
+	// percolate element down
 	parentIdx := 0
 	for parentIdx < len(h.Data) {
-		if leftIdx := getLeftChildIndex(parentIdx); leftIdx < len(h.Data) && h.shouldSwapUp(leftIdx, parentIdx) {
-			h.swapNodes(leftIdx, parentIdx)
-			parentIdx = leftIdx
-		} else if rightIdx := getRightChildIndex(parentIdx); rightIdx < len(h.Data) && h.shouldSwapUp(rightIdx, parentIdx) {
-			h.swapNodes(rightIdx, parentIdx)
-			parentIdx = rightIdx
+		childIdx := h.getMinChildIdx(parentIdx)
+		if childIdx != -1 && h.shouldSwapUp(childIdx, parentIdx) {
+			h.swapNodes(childIdx, parentIdx)
+			parentIdx = childIdx
 		} else {
 			break
 		}
@@ -52,6 +51,7 @@ func (h *Heap) ExtractTop() (int, interface{}, error) {
 func (h *Heap) Insert(key int, value interface{}) {
 	h.Data = append(h.Data, &HeapNode{key, value})
 
+	// percolate element up
 	childIdx := len(h.Data) - 1
 	parentIdx := getParentIndex(childIdx)
 	for childIdx > 0 && h.shouldSwapUp(childIdx, parentIdx) {

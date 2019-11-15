@@ -5,11 +5,11 @@ func getParentIndex(index int) int {
 }
 
 func getLeftChildIndex(parentIndex int) int {
-	return (2 * parentIndex)
+	return (2 * parentIndex) + 1
 }
 
 func getRightChildIndex(parentIndex int) int {
-	return (2 * parentIndex) + 1
+	return (2 * parentIndex) + 2
 }
 
 func (h *Heap) getKey(index int) int {
@@ -34,4 +34,21 @@ func (h *Heap) shouldSwapUp(childIdx, parentIdx int) bool {
 		return h.getKey(childIdx) < h.getKey(parentIdx)
 	}
 	return h.getKey(childIdx) > h.getKey(parentIdx)
+}
+
+func (h *Heap) getMinChildIdx(parentIdx int) int {
+	leftIdx := getLeftChildIndex(parentIdx)
+	rightIdx := getRightChildIndex(parentIdx)
+	if rightIdx >= len(h.Data) && leftIdx >= len(h.Data) {
+		return -1
+	} else if leftIdx >= len(h.Data) {
+		return rightIdx
+	} else if rightIdx >= len(h.Data) {
+		return leftIdx
+	}
+
+	if h.shouldSwapUp(leftIdx, rightIdx) {
+		return leftIdx
+	}
+	return rightIdx
 }

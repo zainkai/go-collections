@@ -33,13 +33,13 @@ func TestMaxHeapInsert(t *testing.T) {
 }
 
 func TestMinHeapExtractTop(t *testing.T) {
-	tests := []int{0, 1, 2, 3, 4, 5}
+	tests := []int{5, 4, 3, 2, 1, 0}
 	heap := New(MIN)
 
 	for _, testVal := range tests {
 		heap.Insert(testVal, nil)
 	}
-	for _, testVal := range tests {
+	for _, testVal := range []int{0, 1, 2, 3, 4, 5} {
 		key, _, err := heap.ExtractTop()
 		if err != nil {
 			t.Error("error returned from extractTop", err)
@@ -50,13 +50,13 @@ func TestMinHeapExtractTop(t *testing.T) {
 }
 
 func TestMaxHeapExtractTop(t *testing.T) {
-	tests := []int{5, 4, 3, 2, 1, 0}
+	tests := []int{0, 1, 2, 3, 4, 5}
 	heap := New(MAX)
 
 	for _, testVal := range tests {
 		heap.Insert(testVal, nil)
 	}
-	for _, testVal := range tests {
+	for _, testVal := range []int{5, 4, 3, 2, 1, 0} {
 		key, _, err := heap.ExtractTop()
 		if err != nil {
 			t.Error("error returned from extractTop", err)
