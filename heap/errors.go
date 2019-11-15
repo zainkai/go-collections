@@ -3,5 +3,6 @@ package heap
 import "errors"
 
 var (
-	ErrEmptyHeap error = errors.New("Heap is empty")
+	ErrCouldNotSwap error = errors.New("Could not swap nodes in heap")
+	ErrEmptyHeap    error = errors.New("Heap is empty")
 )

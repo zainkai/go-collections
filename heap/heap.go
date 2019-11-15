@@ -33,12 +33,10 @@ func (h *Heap) ExtractTop() (int, interface{}, error) {
 
 	parentIdx := 0
 	for parentIdx < len(h.Data) {
-		leftIdx := getLeftChildIndex(parentIdx)
-		rightIdx := getRightChildIndex(parentIdx)
-		if leftIdx < len(h.Data) && h.shouldSwapUp(leftIdx, parentIdx) {
+		if leftIdx := getLeftChildIndex(parentIdx); leftIdx < len(h.Data) && h.shouldSwapUp(leftIdx, parentIdx) {
 			h.swapNodes(leftIdx, parentIdx)
 			parentIdx = leftIdx
-		} else if rightIdx < len(h.Data) && h.shouldSwapUp(rightIdx, parentIdx) {
+		} else if rightIdx := getRightChildIndex(parentIdx); rightIdx < len(h.Data) && h.shouldSwapUp(rightIdx, parentIdx) {
 			h.swapNodes(rightIdx, parentIdx)
 			parentIdx = rightIdx
 		} else {
