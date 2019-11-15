@@ -7,34 +7,8 @@ func New(t HeapType) *Heap {
 	}
 }
 
-func getParentIndex(index int) int {
-	return (index - 1) / 2
-}
-
-func getLeftChildIndex(parentIndex int) int {
-	return (2 * parentIndex) + 1
-}
-
-func getRightChildIndex(parentIndex int) int {
-	return (2 * parentIndex) + 2
-}
-
-func (h *Heap) getKey(index int) int {
-	return h.Data[index].key
-}
-
-func (h *Heap) swapNodes(i, j int) error {
-	if i == j {
-		return nil
-	} else if i < 0 || j < 0 || i > len(h.Data)-1 || j > len(h.Data)-1 {
-		return ErrCouldNotSwap
-	}
-
-	h.Data[i], h.Data[j] = h.Data[j], h.Data[i]
-	return nil
-}
-
 // Top returns top of heap, without removing it
+// returns key, value, error
 // O(1)
 func (h *Heap) Top() (int, interface{}, error) {
 	if len(h.Data) == 0 {
@@ -46,11 +20,30 @@ func (h *Heap) Top() (int, interface{}, error) {
 }
 
 // ExtractTop returns top of heap element and removes it
-// O(N)
+// returns key, value, error
+// O(Log N)
 func (h *Heap) ExtractTop() (int, interface{}, error) {
 	topKey, topVal, err := h.Top()
 	if err != nil {
 		return topKey, topVal, err
+	}
+
+	h.swapNodes(0, len(h.Data)-1)   // bring last node to front of heap
+	h.Data = h.Data[:len(h.Data)-1] // create a new slice on existing array O(1) time
+
+	parentIdx := 0
+	for parentIdx < len(h.Data) {
+		leftIdx := getLeftChildIndex(parentIdx)
+		rightIdx := getRightChildIndex(parentIdx)
+		if leftIdx < len(h.Data) && h.shouldSwapUp(leftIdx, parentIdx) {
+			h.swapNodes(leftIdx, parentIdx)
+			parentIdx = leftIdx
+		} else if rightIdx < len(h.Data) && h.shouldSwapUp(rightIdx, parentIdx) {
+			h.swapNodes(rightIdx, parentIdx)
+			parentIdx = rightIdx
+		} else {
+			break
+		}
 	}
 
 	return topKey, topVal, nil
@@ -63,15 +56,9 @@ func (h *Heap) Insert(key int, value interface{}) {
 
 	childIdx := len(h.Data) - 1
 	parentIdx := getParentIndex(childIdx)
-	for childIdx > 0 {
-		childKey := h.getKey(childIdx)
-		parentKey := h.getKey(parentIdx)
-		if (h.t == MIN && childKey < parentKey) || (h.t == MAX && childKey > parentKey) {
-			h.swapNodes(childIdx, parentIdx)
-			childIdx = parentIdx
-			parentIdx = getParentIndex(childIdx)
-		} else {
-			return
-		}
+	for childIdx > 0 && h.shouldSwapUp(childIdx, parentIdx) {
+		h.swapNodes(childIdx, parentIdx)
+		childIdx = parentIdx
+		parentIdx = getParentIndex(childIdx)
 	}
 }
