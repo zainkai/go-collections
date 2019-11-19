@@ -62,15 +62,8 @@ func (t *Trie) SearchWord(word string) bool {
 // SearchBytes search if full word was inserted into trie
 // O(k)
 func (t *Trie) SearchBytes(word []byte) bool {
-	curNode := t.root
-	for _, char := range word {
-		nextNode, ok := curNode.conns[char]
-		if !ok {
-			return false
-		}
-		curNode = nextNode
-	}
-	return curNode.isWord
+	n := t.searchTrie(word)
+	return n != nil && n.isWord
 }
 
 // IsPrefix search if prefix path exists in trie
@@ -83,13 +76,26 @@ func (t *Trie) IsPrefix(word string) bool {
 // IsPrefixBytes search if prefix path exists in trie
 // O(k)
 func (t *Trie) IsPrefixBytes(word []byte) bool {
+	return t.searchTrie(word) != nil
+}
+
+func (t *Trie) searchTrie(word []byte) *node {
 	curNode := t.root
 	for _, char := range word {
 		nextNode, ok := curNode.conns[char]
 		if !ok {
-			return false
+			return nil
 		}
 		curNode = nextNode
 	}
-	return true
+	return curNode
+}
+
+func (t *Trie) GetSuggestions(word []byte) []string {
+	curNode := t.searchTrie(word)
+	if curNode == nil {
+		return []string{}
+	}
+
+	return []string{}
 }
