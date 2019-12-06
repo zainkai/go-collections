@@ -67,3 +67,24 @@ func TestTriePrefix(t *testing.T) {
 		}
 	}
 }
+
+func TestTrieGetSuggestions(t *testing.T) {
+	words := []string{"aab", "aaa", "aab", "aabcd", "aac", "aabd"}
+	trie := New()
+	for _, word := range words {
+		trie.Insert(word)
+	}
+
+	autoCompletedWords := trie.GetSuggestions("aab")
+	expected := map[string]bool{
+		"aab":   true,
+		"aabcd": true,
+		"aabd":  true,
+	}
+
+	for _, word := range autoCompletedWords {
+		if !expected[word] {
+			t.Errorf("word %s was not supposed to be found in suggestions", word)
+		}
+	}
+}

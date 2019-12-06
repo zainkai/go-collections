@@ -1,9 +1,12 @@
 package trie
 
+import "github.com/zainkai/go-collections/queue"
+
 type node struct {
 	key    byte
 	conns  map[byte]*node
 	isWord bool
+	word   string
 }
 
 // Trie implementation
@@ -43,6 +46,7 @@ func (t *Trie) InsertBytes(word []byte) {
 				key:    char,
 				conns:  make(map[byte]*node),
 				isWord: false,
+				word:   string(word),
 			}
 			curNode.conns[char] = nextNode
 		}
@@ -91,11 +95,34 @@ func (t *Trie) searchTrie(word []byte) *node {
 	return curNode
 }
 
-func (t *Trie) GetSuggestions(word []byte) []string {
-	curNode := t.searchTrie(word)
-	if curNode == nil {
-		return []string{}
+// GetSuggestionsBytes from a word look for all valid connecting words in trie
+// O(K + N)
+func (t *Trie) GetSuggestionsBytes(word []byte) []string {
+	foundNode := t.searchTrie(word)
+	connectedWords := []string{}
+	if foundNode == nil {
+		return connectedWords
 	}
 
-	return []string{}
+	queue := queue.New()
+	queue.Enqueue(foundNode)
+
+	for queue.Length > 0 {
+		curNode := queue.Dequeue().(*node)
+		if curNode.isWord {
+			connectedWords = append(connectedWords, curNode.word)
+		}
+		for _, conn := range curNode.conns {
+			queue.Enqueue(conn)
+		}
+	}
+
+	return connectedWords
+}
+
+// GetSuggestions from a word look for all valid connecting words in trie
+// O(K + N)
+func (t *Trie) GetSuggestions(word string) []string {
+	wordArray := toBytes(word)
+	return t.GetSuggestionsBytes(wordArray)
 }
