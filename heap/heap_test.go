@@ -10,7 +10,7 @@ func TestMinHeapInsert(t *testing.T) {
 		heap.Insert(testVal, nil)
 
 		top := *heap.Data[0]
-		if top.key != testVal {
+		if top.Key != testVal {
 			t.Errorf("Inserting key %d did not rebalance to top of heap", testVal)
 			t.Error(heap.Data)
 		}
@@ -25,7 +25,7 @@ func TestMaxHeapInsert(t *testing.T) {
 		heap.Insert(testVal, nil)
 
 		top := *heap.Data[0]
-		if top.key != testVal {
+		if top.Key != testVal {
 			t.Errorf("Inserting key %d did not rebalance to top of heap", testVal)
 			t.Error(heap.Data)
 		}

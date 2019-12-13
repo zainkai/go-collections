@@ -10,7 +10,7 @@ func New(less, isEqual CompareKeys) *BST {
 }
 
 func (tree *BST) Insert(key, data interface{}) error {
-	newNode := &NodeBST{key, data, nil, nil}
+	newNode := &BSTNode{key, data, nil, nil}
 	if tree.Head == nil {
 		tree.Head = newNode
 		return nil
@@ -37,7 +37,7 @@ func (tree *BST) Insert(key, data interface{}) error {
 	}
 }
 
-func (tree *BST) SearchNode(key interface{}) (*NodeBST, error) {
+func (tree *BST) SearchNode(key interface{}) (*BSTNode, error) {
 	temp := tree.Head
 	for temp != nil {
 		if tree.isKeyEqual(key, temp.Key) {
@@ -59,8 +59,8 @@ func (tree *BST) Search(key interface{}) (interface{}, error) {
 	return node.Data, nil
 }
 
-func (root *NodeBST) SubTreeMin() (*NodeBST, *NodeBST) {
-	var temp, parent *NodeBST = root, nil
+func (root *BSTNode) SubTreeMin() (*BSTNode, *BSTNode) {
+	var temp, parent *BSTNode = root, nil
 
 	for temp != nil {
 		if temp.Left == nil {
@@ -80,8 +80,8 @@ func (tree *BST) FindMin() (key interface{}, data interface{}) {
 	return min.Key, min.Data
 }
 
-func (root *NodeBST) SubTreeMax() (*NodeBST, *NodeBST) {
-	var temp, parent *NodeBST = root, nil
+func (root *BSTNode) SubTreeMax() (*BSTNode, *BSTNode) {
+	var temp, parent *BSTNode = root, nil
 
 	for temp != nil {
 		if temp.Right == nil {
@@ -109,7 +109,7 @@ func (tree *BST) Delete(key interface{}) error {
 	return tree.Head.DeleteNode(tree, key)
 }
 
-func (n *NodeBST) replaceNode(parent, replacement *NodeBST) {
+func (n *BSTNode) replaceNode(parent, replacement *BSTNode) {
 	if parent.Left == n {
 		parent.Left = replacement
 	} else {
@@ -117,8 +117,8 @@ func (n *NodeBST) replaceNode(parent, replacement *NodeBST) {
 	}
 }
 
-func (n *NodeBST) DeleteNode(tree *BST, key interface{}) error {
-	var temp, parent *NodeBST = n, nil
+func (n *BSTNode) DeleteNode(tree *BST, key interface{}) error {
+	var temp, parent *BSTNode = n, nil
 
 	for temp != nil {
 		if tree.isKeyEqual(temp.Key, key) { // has both children

@@ -16,7 +16,7 @@ func (h *Heap) Top() (int, interface{}, error) {
 	}
 
 	min := *(h.Data[0])
-	return min.key, min.value, nil
+	return min.Key, min.Value, nil
 }
 
 // ExtractTop returns top of heap element and removes it

@@ -13,7 +13,7 @@ func getRightChildIndex(parentIndex int) int {
 }
 
 func (h *Heap) getKey(index int) int {
-	return h.Data[index].key
+	return h.Data[index].Key
 }
 
 // swapNodes swaps nodes at an index

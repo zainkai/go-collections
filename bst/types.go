@@ -1,12 +1,12 @@
 package bst
 
-// NodeBST node construct for binary search tree
+// BSTNode node construct for binary search tree
 // Assumes only unique variables in BST
-type NodeBST struct {
+type BSTNode struct {
 	Key   interface{}
 	Data  interface{}
-	Left  *NodeBST
-	Right *NodeBST
+	Left  *BSTNode
+	Right *BSTNode
 }
 
 // CompareKeys compare function for BST node
@@ -14,7 +14,7 @@ type CompareKeys func(a, b interface{}) bool
 
 // BST binary search tree construct
 type BST struct {
-	Head       *NodeBST
+	Head       *BSTNode
 	LessThan   CompareKeys
 	isKeyEqual CompareKeys
 }

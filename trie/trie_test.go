@@ -10,12 +10,12 @@ func TestTrieInsert(t *testing.T) {
 	}
 
 	for _, char := range []byte{'a', 'b', 'c'} {
-		if !trie.root.conns[char].isWord {
+		if !trie.root.Conns[char].IsWord {
 			t.Errorf("%b was not found in trie", char)
 		}
 	}
 	for _, char := range []byte{'d', 'e', 'A'} {
-		if trie.root.conns[char] != nil {
+		if trie.root.Conns[char] != nil {
 			t.Errorf("%b was not supposed to be in trie", char)
 		}
 	}

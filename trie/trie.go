@@ -2,24 +2,24 @@ package trie
 
 import "github.com/zainkai/go-collections/queue"
 
-type node struct {
-	key    byte
-	conns  map[byte]*node
-	isWord bool
-	word   string
+type TrieNode struct {
+	Key    byte
+	Conns  map[byte]*TrieNode
+	IsWord bool
+	Word   string
 }
 
 // Trie implementation
 type Trie struct {
-	root *node
+	root *TrieNode
 }
 
 // New create a Trie
 func New() *Trie {
-	root := &node{
-		key:    byte(0),
-		conns:  make(map[byte]*node),
-		isWord: true,
+	root := &TrieNode{
+		Key:    byte(0),
+		Conns:  make(map[byte]*TrieNode),
+		IsWord: true,
 	}
 
 	return &Trie{root}
@@ -40,20 +40,20 @@ func (t *Trie) InsertBytes(word []byte) {
 	curNode := t.root
 
 	for _, char := range word {
-		nextNode, ok := curNode.conns[char]
+		nextNode, ok := curNode.Conns[char]
 		if !ok {
-			nextNode = &node{
-				key:    char,
-				conns:  make(map[byte]*node),
-				isWord: false,
-				word:   string(word),
+			nextNode = &TrieNode{
+				Key:    char,
+				Conns:  make(map[byte]*TrieNode),
+				IsWord: false,
+				Word:   string(word),
 			}
-			curNode.conns[char] = nextNode
+			curNode.Conns[char] = nextNode
 		}
 		curNode = nextNode
 	}
 
-	curNode.isWord = true
+	curNode.IsWord = true
 }
 
 // SearchWord search if full word was inserted into trie
@@ -67,7 +67,7 @@ func (t *Trie) SearchWord(word string) bool {
 // O(k)
 func (t *Trie) SearchBytes(word []byte) bool {
 	n := t.searchTrie(word)
-	return n != nil && n.isWord
+	return n != nil && n.IsWord
 }
 
 // IsPrefix search if prefix path exists in trie
@@ -83,10 +83,10 @@ func (t *Trie) IsPrefixBytes(word []byte) bool {
 	return t.searchTrie(word) != nil
 }
 
-func (t *Trie) searchTrie(word []byte) *node {
+func (t *Trie) searchTrie(word []byte) *TrieNode {
 	curNode := t.root
 	for _, char := range word {
-		nextNode, ok := curNode.conns[char]
+		nextNode, ok := curNode.Conns[char]
 		if !ok {
 			return nil
 		}
@@ -108,11 +108,11 @@ func (t *Trie) GetSuggestionsBytes(word []byte) []string {
 	queue.Enqueue(foundNode)
 
 	for queue.Length > 0 {
-		curNode := queue.Dequeue().(*node)
-		if curNode.isWord {
-			connectedWords = append(connectedWords, curNode.word)
+		curNode := queue.Dequeue().(*TrieNode)
+		if curNode.IsWord {
+			connectedWords = append(connectedWords, curNode.Word)
 		}
-		for _, conn := range curNode.conns {
+		for _, conn := range curNode.Conns {
 			queue.Enqueue(conn)
 		}
 	}

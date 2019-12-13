@@ -11,7 +11,7 @@ func (tree *BST) InOrderRec(f func(key, data interface{})) {
 	tree.Head.inOrderRec(f)
 }
 
-func (n *NodeBST) inOrderRec(f func(key, data interface{})) {
+func (n *BSTNode) inOrderRec(f func(key, data interface{})) {
 	if n == nil {
 		return
 	}
@@ -37,7 +37,7 @@ func (tree *BST) InOrder(f func(key, data interface{})) {
 			temp = temp.Left
 			continue
 		}
-		temp = stk.Pop().(*NodeBST)
+		temp = stk.Pop().(*BSTNode)
 		f(temp.Key, temp.Data)
 
 		temp = temp.Right
@@ -50,7 +50,7 @@ func (tree *BST) PreOrderRec(f func(key, data interface{})) {
 	tree.Head.preOrderRec(f)
 }
 
-func (n *NodeBST) preOrderRec(f func(key, data interface{})) {
+func (n *BSTNode) preOrderRec(f func(key, data interface{})) {
 	if n == nil {
 		return
 	}
@@ -71,7 +71,7 @@ func (tree *BST) PreOrder(f func(key, data interface{})) {
 	stk.Push(tree.Head)
 
 	for stk.Len() > 0 {
-		temp := stk.Pop().(*NodeBST)
+		temp := stk.Pop().(*BSTNode)
 		f(temp.Key, temp.Data)
 
 		if temp.Right != nil {
@@ -89,7 +89,7 @@ func (tree *BST) PostOrderRec(f func(key, data interface{})) {
 	tree.Head.postOrderRec(f)
 }
 
-func (n *NodeBST) postOrderRec(f func(key, data interface{})) {
+func (n *BSTNode) postOrderRec(f func(key, data interface{})) {
 	if n == nil {
 		return
 	}
@@ -111,7 +111,7 @@ func (tree *BST) PostOrder(f func(key, data interface{})) {
 	outputStk := stack.New()
 
 	for stk.Len() > 0 {
-		temp := stk.Pop().(*NodeBST)
+		temp := stk.Pop().(*BSTNode)
 		outputStk.Push(temp)
 
 		if temp.Left != nil {
@@ -123,7 +123,7 @@ func (tree *BST) PostOrder(f func(key, data interface{})) {
 	}
 
 	for outputStk.Len() > 0 {
-		temp := outputStk.Pop().(*NodeBST)
+		temp := outputStk.Pop().(*BSTNode)
 		f(temp.Key, temp.Data)
 	}
 }
@@ -139,7 +139,7 @@ func (tree *BST) LevelOrder(f func(key, data interface{})) {
 	queue.Enqueue(tree.Head)
 
 	for queue.Len() > 0 {
-		temp := queue.Dequeue().(*NodeBST)
+		temp := queue.Dequeue().(*BSTNode)
 		f(temp.Key, temp.Data)
 
 		if temp.Left != nil {

@@ -1,14 +1,14 @@
 package queue
 
-type node struct {
+type QueueNode struct {
 	Value interface{}
-	Next  *node
+	Next  *QueueNode
 }
 
 // Queue generic stack implementation using a Singly Linked List
 type Queue struct {
-	Head   *node
-	Tail   *node
+	Head   *QueueNode
+	Tail   *QueueNode
 	Length int
 }
 
@@ -44,7 +44,7 @@ func (q *Queue) Dequeue() interface{} {
 // Enqueue Put an item on the end of a queue
 // O(1)
 func (q *Queue) Enqueue(value interface{}) {
-	t := &node{
+	t := &QueueNode{
 		Next:  nil,
 		Value: value,
 	}

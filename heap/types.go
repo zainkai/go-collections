@@ -1,8 +1,8 @@
 package heap
 
 type HeapNode struct {
-	key   int
-	value interface{}
+	Key   int
+	Value interface{}
 }
 
 type HeapType string

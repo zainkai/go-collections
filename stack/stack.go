@@ -1,14 +1,14 @@
 package stack
 
-type node struct {
+type StackNode struct {
 	Value interface{}
-	Next  *node
+	Next  *StackNode
 }
 
 // Stack generic stack implementation using a Linked List
 type Stack struct {
 	Length int
-	Last   *node
+	Last   *StackNode
 }
 
 // New Create a new Stack
@@ -50,7 +50,7 @@ func (s *Stack) Pop() interface{} {
 // Push a value onto the top of the Stack
 // O(1)
 func (s *Stack) Push(value interface{}) {
-	t := &node{
+	t := &StackNode{
 		Value: value,
 		Next:  s.Last,
 	}
