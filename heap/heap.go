@@ -7,6 +7,10 @@ func New(t HeapType) *Heap {
 	}
 }
 
+func (h *Heap) Len() int {
+	return len(h.Data)
+}
+
 // Top returns top of heap, without removing it
 // returns key, value, error
 // O(1)
